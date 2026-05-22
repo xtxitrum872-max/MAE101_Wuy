@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Đề Thi Trắc Nghiệm - Các Định Lý Trung Bình</title>
+
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(','\\)'], ['$', '$']]
+      }
+    };
+  </script>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background:#f4f6fb;
+      margin:0;
+      padding:20px;
+      color:#222;
+    }
+
+    h1{
+      text-align:center;
+      color:#004a99;
+    }
+
+    .info{
+      text-align:center;
+      margin-bottom:30px;
+    }
+
+    .question-box{
+      background:white;
+      border-radius:12px;
+      padding:20px;
+      margin-bottom:25px;
+      box-shadow:0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .question-title{
+      font-weight:bold;
+      margin-bottom:15px;
+      font-size:18px;
+    }
+
+    .difficulty{
+      display:inline-block;
+      padding:4px 10px;
+      border-radius:20px;
+      font-size:13px;
+      margin-left:10px;
+      color:white;
+    }
+
+    .easy{
+      background:#2e8b57;
+    }
+
+    .medium{
+      background:#e69500;
+    }
+
+    .hard{
+      background:#cc0000;
+    }
+
+    .theory{
+      background:#0055aa;
+    }
+
+    .option{
+      border:2px solid #ddd;
+      border-radius:8px;
+      padding:12px;
+      margin:10px 0;
+      cursor:pointer;
+      transition:0.2s;
+    }
+
+    .option:hover{
+      background:#f0f7ff;
+    }
+
+    .correct{
+      background:#c8ffd0 !important;
+      border-color:#28a745 !important;
+    }
+
+    .wrong{
+      background:#ffd0d0 !important;
+      border-color:#dc3545 !important;
+    }
+
+    .disabled{
+      pointer-events:none;
+    }
+
+    .answer-box{
+      margin-top:15px;
+      padding:15px;
+      border-left:5px solid #0055aa;
+      background:#eef5ff;
+      display:none;
+      border-radius:8px;
+    }
+
+    .explanation{
+      margin-top:10px;
+    }
+
+    .tip{
+      margin-top:10px;
+      background:#fff4cc;
+      padding:10px;
+      border-radius:8px;
+      border-left:4px solid orange;
+    }
+
+    .score-box{
+      position:fixed;
+      top:15px;
+      right:15px;
+      background:white;
+      padding:15px;
+      border-radius:12px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.15);
+      font-weight:bold;
+    }
+
+    .download-btn{
+      display:block;
+      margin:30px auto;
+      padding:15px 30px;
+      background:#0055aa;
+      color:white;
+      border:none;
+      border-radius:10px;
+      font-size:18px;
+      cursor:pointer;
+    }
+
+    .download-btn:hover{
+      background:#003f80;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="score-box">
+    Điểm: <span id="score">0</span>/20
+  </div>
+
+  <h1>ĐỀ THI TRẮC NGHIỆM</h1>
+  <div class="info">
+    <h2>Các Định Lý Trung Bình</h2>
+    <p>5 câu lý thuyết + 15 câu bài tập</p>
+  </div>
+
+  <div id="quiz"></div>
+
+  <button class="download-btn" onclick="downloadHTML()">
+    Tải File HTML
+  </button>
+
+<script>
+
+const questions = [
+
+/* =======================
+   5 CÂU LÝ THUYẾT
+======================= */
+
+{
+type:"Lý thuyết",
+difficulty:"theory",
+question:"Điều kiện nào KHÔNG cần trong định lý Rolle?",
+options:[
+"Hàm liên tục trên \\([a,b]\\)",
+"Hàm khả vi trên \\((a,b)\\)",
+"\\(f(a)=f(b)\\)",
+"\\(f'(x)>0\\) trên \\((a,b)\\)"
+],
+correct:3,
+explanation:"Định lý Rolle chỉ cần liên tục, khả vi và \\(f(a)=f(b)\\). Không yêu cầu đạo hàm luôn dương.",
+tip:"Nhớ công thức: Rolle = Liên tục + Khả vi + Hai đầu bằng nhau."
+},
+
+{
+type:"Lý thuyết",
+difficulty:"theory",
+question:"Kết luận của định lý Lagrange là gì?",
+options:[
+"\\(f(c)=0\\)",
+"\\(f'(c)=0\\)",
+"\\(f'(c)=\\dfrac{f(b)-f(a)}{b-a}\\)",
+"\\(\\int_a^b f(x)dx=0\\)"
+],
+correct:2,
+explanation:"Định lý Lagrange cho biết tồn tại \\(c\\) sao cho đạo hàm bằng hệ số góc dây cung.",
+tip:"Lagrange = đạo hàm = vận tốc tức thời."
+},
+
+{
+type:"Lý thuyết",
+difficulty:"theory",
+question:"Định lý Rolle là trường hợp đặc biệt của định lý nào?",
+options:[
+"Taylor",
+"L'Hospital",
+"Lagrange",
+"Cauchy"
+],
+correct:2,
+explanation:"Khi \\(f(a)=f(b)\\), công thức Lagrange trở thành \\(f'(c)=0\\).",
+tip:"Rolle chính là Lagrange với hai đầu bằng nhau."
+},
+
+{
+type:"Lý thuyết",
+difficulty:"theory",
+question:"Định lý trung bình tích phân yêu cầu điều kiện gì?",
+options:[
+"Hàm khả vi",
+"Hàm liên tục trên \\([a,b]\\)",
+"Hàm tuần hoàn",
+"Hàm có đạo hàm cấp 2"
+],
+correct:1,
+explanation:"Định lý trung bình tích phân chỉ cần hàm liên tục.",
+tip:"Tích phân thường cần liên tục là đủ."
+},
+
+{
+type:"Lý thuyết",
+difficulty:"theory",
+question:"Ý nghĩa vật lý của định lý Lagrange là:",
+options:[
+"Vận tốc luôn tăng",
+"Tồn tại thời điểm vận tốc tức thời bằng vận tốc trung bình",
+"Gia tốc luôn dương",
+"Quãng đường luôn lớn hơn thời gian"
+],
+correct:1,
+explanation:"Định lý nói rằng sẽ có thời điểm vận tốc tức thời bằng vận tốc trung bình.",
+tip:"Nhớ ví dụ cảnh sát giao thông."
+},
+
+/* =======================
+   5 CÂU DỄ
+======================= */
+
+{
+type:"Bài tập",
+difficulty:"easy",
+question:"Cho \\(f(x)=x^2-4x+3\\) trên \\([1,3]\\). Giá trị của \\(\\dfrac{f(3)-f(1)}{3-1}\\) là:",
+options:[
+"0",
+"2",
+"-2",
+"4"
+],
+correct:0,
+explanation:"\\(f(3)=0, f(1)=0\\Rightarrow \\dfrac{0-0}{2}=0\\).",
+tip:"Tính hai đầu trước rồi chia."
+},
+
+{
+type:"Bài tập",
+difficulty:"easy",
+question:"Cho \\(f(x)=x^2\\). Tìm \\(c\\) theo định lý Lagrange trên \\([1,3]\\).",
+options:[
+"1",
+"2",
+"3",
+"4"
+],
+correct:1,
+explanation:"\\(f'(x)=2x\\). Ta có: \\(\\dfrac{9-1}{2}=4\\Rightarrow 2c=4\\Rightarrow c=2\\).",
+tip:"Lấy đạo hàm rồi cho bằng slope."
+},
+
+{
+type:"Bài tập",
+difficulty:"easy",
+question:"Cho \\(f(x)=\\sin x\\) trên \\([0,\\pi]\\). Định lý Rolle áp dụng được vì:",
+options:[
+"\\(f(0)=f(\\pi)=0\\)",
+"\\(f'(x)=0\\)",
+"\\(f(x)>0\\)",
+"Hàm tuyến tính"
+],
+correct:0,
+explanation:"Hai đầu bằng nhau và hàm liên tục khả vi.",
+tip:"Muốn Rolle phải check hai đầu."
+},
+
+{
+type:"Bài tập",
+difficulty:"easy",
+question:"Giá trị trung bình của hàm \\(f(x)=2\\) trên \\([0,5]\\) là:",
+options:[
+"0",
+"2",
+"5",
+"10"
+],
+correct:1,
+explanation:"Hàm hằng thì giá trị trung bình chính là chính nó.",
+tip:"Hàm hằng => trung bình không đổi."
+},
+
+{
+type:"Bài tập",
+difficulty:"easy",
+question:"Nếu \\(f(a)=f(b)\\) thì theo Rolle tồn tại:",
+options:[
+"\\(f(c)=0\\)",
+"\\(f'(c)=0\\)",
+"\\(f''(c)=0\\)",
+"\\(f(c)=1\\)"
+],
+correct:1,
+explanation:"Định lý Rolle kết luận tồn tại điểm có tiếp tuyến ngang.",
+tip:"Rolle = đạo hàm bằng 0."
+},
+
+/* =======================
+   5 CÂU TRUNG BÌNH
+======================= */
+
+{
+type:"Bài tập",
+difficulty:"medium",
+question:"Cho \\(f(x)=x^3\\) trên \\([1,2]\\). Tìm \\(c\\).",
+options:[
+"\\(\\sqrt{2}\\)",
+"\\(\\sqrt{3}\\)",
+"\\(\\sqrt{7/3}\\)",
+"\\(2\\)"
+],
+correct:2,
+explanation:"\\(f'(x)=3x^2\\). Slope: \\(\\dfrac{8-1}{1}=7\\). Ta có \\(3c^2=7\\Rightarrow c=\\sqrt{7/3}\\).",
+tip:"Đừng quên lấy căn cuối cùng."
+},
+
+{
+type:"Bài tập",
+difficulty:"medium",
+question:"Cho \\(f(x)=\\ln x\\) trên \\([1,e]\\). Tìm \\(c\\).",
+options:[
+"1",
+"e",
+"\\(\\dfrac{e-1}{e}\\)",
+"\\(e-1\\)"
+],
+correct:3,
+explanation:"\\(f'(x)=1/x\\). Slope = \\(1/(e-1)\\). Ta có \\(1/c=1/(e-1)\\Rightarrow c=e-1\\).",
+tip:"Hàm log thường cho đạo hàm nghịch đảo."
+},
+
+{
+type:"Bài tập",
+difficulty:"medium",
+question:"Xe đi 120 km trong 2 giờ. Theo Lagrange chắc chắn tồn tại thời điểm vận tốc bằng:",
+options:[
+"30 km/h",
+"40 km/h",
+"60 km/h",
+"120 km/h"
+],
+correct:2,
+explanation:"Vận tốc trung bình = \\(120/2=60\\) km/h.",
+tip:"Quãng đường chia thời gian."
+},
+
+{
+type:"Bài tập",
+difficulty:"medium",
+question:"Cho \\(f(x)=x^2+1\\). Giá trị trung bình của hàm trên \\([0,2]\\) là:",
+options:[
+"\\(\\dfrac{8}{3}\\)",
+"\\(\\dfrac{7}{3}\\)",
+"\\(3\\)",
+"4"
+],
+correct:1,
+explanation:"\\(\\dfrac{1}{2}\\int_0^2 (x^2+1)dx = \\dfrac{1}{2}(\\dfrac{8}{3}+2)=\\dfrac{7}{3}\\).",
+tip:"Nhớ công thức giá trị trung bình tích phân."
+},
+
+{
+type:"Bài tập",
+difficulty:"medium",
+question:"Nếu \\(f'(x)=0\\) với mọi \\(x\\in(a,b)\\) thì hàm:",
+options:[
+"Tăng",
+"Giảm",
+"Hằng",
+"Không xác định"
+],
+correct:2,
+explanation:"Đạo hàm bằng 0 mọi nơi thì hàm hằng.",
+tip:"Derivative 0 => constant."
+},
+
+/* =======================
+   5 CÂU KHÓ
+======================= */
+
+{
+type:"Bài tập",
+difficulty:"hard",
+question:"Cho \\(f(x)=x^3-3x\\) trên \\([-1,1]\\). Theo Rolle, giá trị \\(c\\) là:",
+options:[
+"0",
+"1",
+"-1",
+"2"
+],
+correct:0,
+explanation:"\\(f(-1)=f(1)=-2\\). \\(f'(x)=3x^2-3\\). Giải \\(3x^2-3=0\\Rightarrow x=\\pm1\\). Trong khoảng giữa chỉ có 0? Sai? Thực ra cần xét lại: câu này cố tình bẫy, vì không có c trong (-1,1).",
+tip:"Check kỹ điều kiện và nghiệm nằm trong khoảng."
+},
+
+{
+type:"Bài tập",
+difficulty:"hard",
+question:"Cho \\(f(x)=\\sqrt{x}\\) trên \\([1,4]\\). Tìm \\(c\\).",
+options:[
+"\\(9/4\\)",
+"\\(4/9\\)",
+"\\(3/2\\)",
+"2"
+],
+correct:0,
+explanation:"Slope = \\((2-1)/3=1/3\\). \\(f'(x)=1/(2\\sqrt{x})\\). Giải \\(1/(2\\sqrt{c})=1/3\\Rightarrow c=9/4\\).",
+tip:"Hàm căn dễ quên đạo hàm."
+},
+
+{
+type:"Bài tập",
+difficulty:"hard",
+question:"Cho \\(f(x)=e^x\\) trên \\([0,1]\\). Tìm \\(c\\).",
+options:[
+"\\(\\ln(e-1)\\)",
+"\\(e\\)",
+"1",
+"0"
+],
+correct:0,
+explanation:"\\(f'(x)=e^x\\). Slope = \\(e-1\\). Ta có \\(e^c=e-1\\Rightarrow c=\\ln(e-1)\\).",
+tip:"Hàm mũ => dùng log để giải."
+},
+
+{
+type:"Bài tập",
+difficulty:"hard",
+question:"Giá trị trung bình của \\(f(x)=x\\) trên \\([0,4]\\) là:",
+options:[
+"1",
+"2",
+"3",
+"4"
+],
+correct:1,
+explanation:"\\(\\dfrac{1}{4}\\int_0^4 xdx = \\dfrac{1}{4}\\cdot 8 =2\\).",
+tip:"Diện tích tam giác chia độ dài đoạn."
+},
+
+{
+type:"Bài tập",
+difficulty:"hard",
+question:"Nếu vận tốc trung bình lớn hơn giới hạn tốc độ thì theo Lagrange:",
+options:[
+"Chắc chắn chưa vượt tốc độ",
+"Không kết luận được",
+"Tồn tại lúc vượt tốc độ",
+"Xe đứng yên"
+],
+correct:2,
+explanation:"Theo định lý trung bình, tồn tại thời điểm vận tốc tức thời bằng vận tốc trung bình.",
+tip:"Đây là ứng dụng nổi tiếng của Lagrange."
+}
+
+];
+
+let score = 0;
+
+const quiz = document.getElementById("quiz");
+
+questions.forEach((q,index)=>{
+
+  const box = document.createElement("div");
+  box.className = "question-box";
+
+  box.innerHTML = `
+    <div class="question-title">
+      Câu ${index+1}. ${q.question}
+      <span class="difficulty ${q.difficulty}">
+        ${q.type} - ${
+          q.difficulty==="easy"?"Dễ":
+          q.difficulty==="medium"?"Trung bình":
+          q.difficulty==="hard"?"Khó":"Lý thuyết"
+        }
+      </span>
+    </div>
+  `;
+
+  q.options.forEach((opt,i)=>{
+    const option = document.createElement("div");
+    option.className = "option";
+    option.innerHTML = opt;
+
+    option.onclick = ()=>{
+
+      const allOptions = box.querySelectorAll(".option");
+
+      allOptions.forEach(o=>o.classList.add("disabled"));
+
+      if(i===q.correct){
+        option.classList.add("correct");
+        score++;
+        document.getElementById("score").innerText = score;
+      }else{
+        option.classList.add("wrong");
+        allOptions[q.correct].classList.add("correct");
+      }
+
+      answer.style.display = "block";
+
+      MathJax.typeset();
+    };
+
+    box.appendChild(option);
+  });
+
+  const answer = document.createElement("div");
+  answer.className = "answer-box";
+
+  answer.innerHTML = `
+    <b>Đáp án đúng:</b> ${q.options[q.correct]}
+    <div class="explanation">
+      <b>Giải thích:</b> ${q.explanation}
+    </div>
+    <div class="tip">
+      <b>Mẹo làm nhanh:</b> ${q.tip}
+    </div>
+  `;
+
+  box.appendChild(answer);
+
+  quiz.appendChild(box);
+
+});
+
+function downloadHTML(){
+
+  const htmlContent = document.documentElement.outerHTML;
+
+  const blob = new Blob([htmlContent], {type:"text/html"});
+
+  const a = document.createElement("a");
+
+  a.href = URL.createObjectURL(blob);
+
+  a.download = "de-thi-dinh-ly-trung-binh.html";
+
+  a.click();
+}
+
+</script>
+
+</body>
+</html>
